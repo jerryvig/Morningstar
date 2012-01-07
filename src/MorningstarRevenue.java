@@ -18,7 +18,6 @@ public class MorningstarRevenue {
        try {
 	   writer = new BufferedWriter( new FileWriter("./MorningstarRevenues.csv") );
            writer.write( "\"Ticker Symbol\",\"Period\",\"Revenue\"\n" );
-
            reader = new BufferedReader( new FileReader("./CBOE-WEEKLIES.csv") );
            String s;
            while ( (s = reader.readLine()) != null ) {
