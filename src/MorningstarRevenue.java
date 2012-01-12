@@ -18,7 +18,7 @@ public class MorningstarRevenue {
        try {
 	   writer = new BufferedWriter( new FileWriter("./MorningstarRevenues.csv") );
            writer.write( "\"Ticker Symbol\",\"Period\",\"Revenue\"\n" );
-           reader = new BufferedReader( new FileReader("./CBOE-WEEKLIES.csv") );
+           reader = new BufferedReader( new FileReader("./NASDAQ-LISTS.csv") );
            String s;
            while ( (s = reader.readLine()) != null ) {
 	       tickers.add(s.trim());
@@ -46,7 +46,6 @@ public class MorningstarRevenue {
 	       Thread.sleep( 250 );
            } catch ( InterruptedException ie ) { ie.printStackTrace(); }
        }
-      
        try {
 	   writer.close();
        } catch ( IOException ioe ) {  ioe.printStackTrace(); }
