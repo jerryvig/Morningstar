@@ -1,0 +1,49 @@
+import au.com.bytecode.opencsv.CSVReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+
+public class JobsSalary {
+
+ public static void main( String[] args ) {
+   try {
+     CSVReader reader = new CSVReader( new FileReader("/root/Desktop/Morningstar/morningstarFact.csv" ) );
+     String[] nextLine;
+     HtmlUnitDriver driver = new HtmlUnitDriver( BrowserVersion.FIREFOX_3_6 );
+     driver.setJavascriptEnabled( false );
+   
+     int rowCount = 0;
+
+     while ( (nextLine = reader.readNext()) != null ) {
+      if ( rowCount > 0 ) {      
+       String ticker = nextLine[0].trim();
+       String companyName = nextLine[15].trim();
+       String city = nextLine[25].trim();
+       String state = nextLine[26].trim();
+
+       /*
+       companyName = companyName.toLowerCase();
+       companyName = companyName.replaceAll(" ","+");
+       companyName = companyName.replaceAll(".","");
+       companyName = companyName.replaceAll(",","");
+       companyName = companyName.replaceAll("ltd","");
+       companyName = companyName.replaceAll("inc","");
+       companyName = companyName.replaceAll("ltd",""); */
+
+       city = city.replaceAll(" ","+");
+        
+       System.out.println( city + ", " + companyName );
+           
+
+       try { Thread.sleep( 250 ); } catch ( InterruptedException ie ) { ie.printStackTrace(); }     
+      }
+      rowCount++;
+     }
+
+     reader.close();
+   }catch ( IOException ioe ) { ioe.printStackTrace(); }
+ }
+}
