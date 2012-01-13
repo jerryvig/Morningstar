@@ -1,0 +1,11 @@
+import geo.google.GeoAddressStandardizer;
+import geo.google.datamodel.GeoAddress;
+
+public class GoogleGeocode {
+ public static void main( String[] args ) {
+     GeoAddressStandardizer st = new GeoAddressStandardizer( "ABQIAAAAI1oIsi6Dv7MlmxUm1lRR_xTmarcuMJj81CoryY3grjEx5dFcyxQoeQTublWNe-B1iLVnHNrRuJD6_w" );
+     GeoAddress geoAddy = st.standardizeToGeoAddress( "124 Merrydale RD San Rafael, CA 94903" );
+     System.out.println( geoAddy.getAddressLine() );
+
+ }
+}
