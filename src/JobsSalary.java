@@ -23,25 +23,28 @@ public class JobsSalary {
      while ( (nextLine = reader.readNext()) != null ) {
       if ( rowCount > 0 ) {      
        String ticker = nextLine[0].trim();
-       String companyName = nextLine[15].trim();
-       String city = nextLine[25].trim();
+       String inputCompanyName = nextLine[15].trim();
+       String companyName = inputCompanyName;
+       String inputCity = nextLine[25].trim();
+       String city = inputCity;
        String state = nextLine[26].trim();
        String sAverage = "";
        String sRange = "";      
  
        companyName = companyName.toLowerCase().trim();
-       companyName = companyName.replace(".","");
-       companyName = companyName.replace("!","");
-       companyName = companyName.replaceAll("corporation","");
-       companyName = companyName.replaceAll("incorporated","");
-       companyName = companyName.replaceAll(",","");
-       companyName = companyName.replaceAll("ltd","");
-       companyName = companyName.replaceAll("inc","");
-       companyName = companyName.replaceAll("ltd","");
-       companyName = companyName.replaceAll("corp","");
-       companyName = companyName.replaceAll("lp","");
-       companyName = companyName.replaceAll("sa","");
-       companyName = companyName.trim();
+       companyName = companyName.replace(".com","");
+       companyName = companyName.replace(".","").trim();
+       companyName = companyName.replace("!","").trim();
+       companyName = companyName.replaceAll("corporation","").trim();
+       companyName = companyName.replaceAll("incorporated","").trim();
+       companyName = companyName.replaceAll("holdings","").trim();
+       companyName = companyName.replaceAll(",","").trim();
+       companyName = companyName.replaceAll("ltd","").trim();
+       companyName = companyName.replaceAll(" inc","").trim();
+       companyName = companyName.replaceAll("corp","").trim();
+       companyName = companyName.replaceAll("lp","").trim();
+       companyName = companyName.replaceAll(" plc","").trim();
+       companyName = companyName.replaceAll(" nv","").trim();
        companyName = companyName.replaceAll(" ","+");
        city = city.replaceAll(" ","+").trim();
 
@@ -60,15 +63,13 @@ public class JobsSalary {
        } catch ( NoSuchElementException nsee ) { nsee.printStackTrace(); }
  
        try {
-         writer.write( "\"" + ticker + "\",\"" + companyName + "\",\"" + city + "\",\"" + state + "\",\"" + sAverage + "\",\"" + sRange + "\"\n" );
-         System.out.print( "\"" + ticker + "\",\"" + companyName + "\",\"" + city + "\",\"" + state + "\",\"" + sAverage + "\",\"" + sRange + "\"\n" );
+         writer.write( "\"" + ticker + "\",\"" + inputCompanyName + "\",\"" + inputCity + "\",\"" + state + "\",\"" + sAverage + "\",\"" + sRange + "\"\n" );
+         System.out.print( "\"" + ticker + "\",\"" + inputCompanyName + "\",\"" + inputCity + "\",\"" + state + "\",\"" + sAverage + "\",\"" + sRange + "\"\n" );
        } catch ( IOException ioe ) { ioe.printStackTrace(); }
-
        try { Thread.sleep( 400 ); } catch ( InterruptedException ie ) { ie.printStackTrace(); }     
       }
       rowCount++;
      }
-
      reader.close();
      writer.close();
    }catch ( IOException ioe ) { ioe.printStackTrace(); }

@@ -1,0 +1,9 @@
+<?php
+  $fh = fopen( './AlexaUSList.txt', 'r' );
+
+  while (($line = fgets($fh, 4096)!=false) {
+      echo trim($line);
+  }
+
+  fclose($fh);
+?>
