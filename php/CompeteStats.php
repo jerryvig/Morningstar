@@ -1,10 +1,10 @@
 <?php
-  $fh = fopen( './AlexaUSList.txt', 'r' );
-  $out = fopen( './CompeteUSData.csv', 'w' );
+  $fh = fopen( './QuantCastUSData.csv', 'r' );
+  $out = fopen( './CompeteQuantCastUSData.csv', 'w' );
 
   while (($line = fgets($fh, 4096))!=false) {
     $domain = trim($line);
-    $url = "http://siteanalytics.compete.com/export_csv/".$domain."/";
+    $url = "http://siteanalytics.compete.com/export_csv/". $domain ."/";
     system( '/usr/bin/wget -O file.csv "' . $url . '"' );
  
     $csv_handle = fopen( './file.csv', 'r' );
