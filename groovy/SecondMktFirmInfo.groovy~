@@ -1,0 +1,20 @@
+import java.io.FileReader;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import au.com.bytecode.opencsv.CSVReader;
+
+CSVReader csvReader = new CSVReader(new FileReader("./SecondMarketFirmList.csv"));
+WebClient wc = new WebClient( BrowserVersion.FIREFOX_3_6 ); 
+wc.setJavaScriptEnabled( false );
+
+String[] nextLine;
+while ((nextLine = csvReader.readNext())!=null) {
+  def companyName = nextLine[0].trim();
+  def location = nextLine[1].trim();
+  def url = nextLine[2].trim();
+  HtmlPage page = wc.getPage( url );
+  println page.asText();
+}
+
+csvReader.close();
