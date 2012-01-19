@@ -1,6 +1,6 @@
 <?php
-  $fh = fopen( './QuantCastUSData.csv', 'r' );
-  $out = fopen( './CompeteQuantCastUSData.csv', 'w' );
+  $fh = fopen( './SecondMarketDomainList.txt', 'r' );
+  $out = fopen( './CompeteSecondMktData.csv', 'w' );
 
   while (($line = fgets($fh, 4096))!=false) {
     $domain = trim($line);
@@ -17,9 +17,8 @@
     }
 
     fclose( $csv_handle );
-    sleep( 1 );
+    usleep( 500000 );
   }
-
   fclose( $out );
   fclose($fh);
 ?>
