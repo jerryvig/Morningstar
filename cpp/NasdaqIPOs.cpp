@@ -33,6 +33,7 @@ int main() {
   monthStrings.push_back("2011-11");
   monthStrings.push_back("2011-12");
   monthStrings.push_back("2012-01");
+  monthStrings.push_back("2012-02");
 
   fstream outFile( "/tmp/NasdaqIPOs.csv", fstream::out );
 
@@ -70,6 +71,7 @@ int main() {
                   tree<HTML::Node> trDom = parser.parseTree( trHtml );
                   int tdCount = 0;
                   string name = "";
+                  string nasdaqUrl = "";
                   string ticker = "";
                   string market = "";
                   string price = "";
@@ -84,6 +86,9 @@ int main() {
                         int startIndex = tdHtml.find("\">");
                         int endIndex = tdHtml.find("</a>");
                         name = tdHtml.substr(startIndex+2,(endIndex-startIndex-2));
+                        startIndex = tdHtml.find("href=\"");
+                        endIndex = tdHtml.find("\">");
+                        nasdaqUrl = tdHtml.substr(startIndex+6,(endIndex-startIndex-6));
                       }
                       else if ( tdCount == 1 ) {
                         string tdHtml = trIter->content( trHtml );
@@ -117,7 +122,7 @@ int main() {
                     }
                   }
                   if ( name != "" ) {
-                     outFile << "\"" + type + "\",\"" + name + "\",\"" + ticker + "\",\"" + market + "\",\"" + price + "\",\"" + shares + "\",\"" + offerAmount + "\",\"" + datePriced + "\"" << endl;
+                     outFile << "\"" + type + "\",\"" + name + "\",\"" + ticker + "\",\"" + market + "\",\"" + price + "\",\"" + shares + "\",\"" + offerAmount + "\",\"" + datePriced + "\",\"" + nasdaqUrl + "\"" << endl;
                   }                   
                 }            
               }
@@ -137,6 +142,7 @@ int main() {
 		  string trHtml = treeIter->content( htmlContent );
                   tree<HTML::Node> trDom = parser.parseTree( trHtml );
                   int tdCount = 0;
+                  string nasdaqUrl = "";
                   string name = "";
                   string ticker = "";
                   string offerAmount = "";
@@ -153,6 +159,9 @@ int main() {
                         int startIndex = tdHtml.find("\">");
                         int endIndex = tdHtml.find("</a>");
                         name = tdHtml.substr(startIndex+2,(endIndex-startIndex-2));
+                        startIndex = tdHtml.find("href=\"");
+                        endIndex = tdHtml.find("\">");
+                        nasdaqUrl = tdHtml.substr(startIndex+6,(endIndex-startIndex-6));
                       }
                       else if ( tdCount == 1 ) {
                         string tdHtml = trIter->content( trHtml );
@@ -177,7 +186,7 @@ int main() {
                     }
                   }
                   if ( name != "" ) {
-                     outFile << "\"" + type + "\",\"" + name + "\",\"" + ticker + "\",\"" + market + "\",\"" + price + "\",\"" + shares + "\",\"" + offerAmount + "\",\"" + dateFiled + "\"" << endl;
+                     outFile << "\"" + type + "\",\"" + name + "\",\"" + ticker + "\",\"" + market + "\",\"" + price + "\",\"" + shares + "\",\"" + offerAmount + "\",\"" + dateFiled + "\",\"" + nasdaqUrl + "\"" << endl;
                   }                   
                 }            
               }
@@ -187,7 +196,7 @@ int main() {
         } catch( curlpp::RuntimeError &e ) { std::cout << e.what() << std::endl; }
         catch( curlpp::LogicError &e ) { std::cout << e.what() << std::endl; }
         catch( std::out_of_range &e ) { cout << e.what() << endl; }
-        usleep( 200000 );        
+        usleep( 250000 );        
       }
   }
   outFile.close();
