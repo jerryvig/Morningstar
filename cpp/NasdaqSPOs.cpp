@@ -31,6 +31,7 @@ int main() {
     }
   }
   monthStrings.push_back("2012-01");
+  monthStrings.push_back("2012-02");
 
   fstream outFile( "/tmp/NasdaqSPOs.csv", fstream::out );
 
@@ -62,6 +63,7 @@ int main() {
                   tree<HTML::Node> trDom = parser.parseTree( trHtml );
                   int tdCount = 0;
                   string name = "";
+                  string nasdaqUrl = "";
                   string ticker = "";
                   string market = "";
                   string price = "";
@@ -76,6 +78,9 @@ int main() {
                         int startIndex = tdHtml.find("\">");
                         int endIndex = tdHtml.find("</a>");
                         name = tdHtml.substr(startIndex+2,(endIndex-startIndex-2));
+                        startIndex = tdHtml.find("href=\"");
+                        endIndex = tdHtml.find("\">");
+                        nasdaqUrl = tdHtml.substr(startIndex+6,(endIndex-startIndex-6));
                       }
                       else if ( tdCount == 1 ) {
                         string tdHtml = trIter->content( trHtml );
@@ -109,7 +114,7 @@ int main() {
                     }
                   }
                   if ( name != "" ) {
-                     outFile << "\"" + type + "\",\"" + name + "\",\"" + ticker + "\",\"" + market + "\",\"" + price + "\",\"" + shares + "\",\"" + offerAmount + "\",\"" + datePriced + "\"" << endl;
+                     outFile << "\"" + type + "\",\"" + name + "\",\"" + ticker + "\",\"" + market + "\",\"" + price + "\",\"" + shares + "\",\"" + offerAmount + "\",\"" + datePriced + "\",\"" + nasdaqUrl + "\"" << endl;
                   }                   
                 }            
               }
@@ -130,6 +135,7 @@ int main() {
                   tree<HTML::Node> trDom = parser.parseTree( trHtml );
                   int tdCount = 0;
                   string name = "";
+                  string nasdaqUrl = "";
                   string ticker = "";
                   string offerAmount = "";
                   string dateFiled = "";
@@ -144,6 +150,9 @@ int main() {
                         int startIndex = tdHtml.find("\">");
                         int endIndex = tdHtml.find("</a>");
                         name = tdHtml.substr(startIndex+2,(endIndex-startIndex-2));
+                        startIndex = tdHtml.find("href=\"");
+                        endIndex = tdHtml.find("\">");
+                        nasdaqUrl = tdHtml.substr(startIndex+6,(endIndex-startIndex-6));
                       }
                       else if ( tdCount == 1 ) {
                         string tdHtml = trIter->content( trHtml );
@@ -168,7 +177,7 @@ int main() {
                     }
                   }
                   if ( name != "" ) {
-                     outFile << "\"" + type + "\",\"" + name + "\",\"" + ticker + "\",\"" + market + "\",\"" + price + "\",\"" + shares + "\",\"" + offerAmount + "\",\"" + dateFiled + "\"" << endl;
+                     outFile << "\"" + type + "\",\"" + name + "\",\"" + ticker + "\",\"" + market + "\",\"" + price + "\",\"" + shares + "\",\"" + offerAmount + "\",\"" + dateFiled + "\",\"" + nasdaqUrl + "\"" << endl;
                   }                   
                 }            
               }

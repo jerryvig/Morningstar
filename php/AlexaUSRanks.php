@@ -1,7 +1,12 @@
 <?php
   require_once("./simple_html_dom.php");
+
+  error_reporting( E_ALL );
+  date_default_timezone_set('America/Los_Angeles');
   $dom = new simple_html_dom(); 
-  $fh = fopen( "./AlexaUSList.txt", "w" );
+  $current_date = date( 'Y-m-d' );
+  $filename = "./AlexaUSList-" . $current_date . ".txt";
+  $fh = fopen( $filename, "w" );
 
   for ( $i=0; $i<21; $i++ ) {
    $url = "http://www.alexa.com/topsites/countries;$i/US";

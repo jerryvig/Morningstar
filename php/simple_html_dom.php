@@ -876,7 +876,9 @@ class simple_html_dom {
     // find dom node by css selector
     // Paperg - allow us to specify that we want case insensitive testing of the value of the selector.
     function find($selector, $idx=null, $lowercase=false) {
+      // if ( isset($this->root) ) {
         return $this->root->find($selector, $idx, $lowercase);
+	//}
     }
 
     // clean up memory due to php5 circular references memory leak...
