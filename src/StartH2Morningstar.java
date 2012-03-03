@@ -1,0 +1,128 @@
+import java.util.List;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import org.h2.tools.Server;
+import javax.net.ssl.HttpsURLConnection;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.net.URL;
+import java.net.MalformedURLException;
+import org.dom4j.io.SAXReader;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Node;
+
+public class StartH2Morningstar {
+  private static Connection conn;
+  private static Statement stmt;
+
+  public static void main( String[] args ) {
+     startDB();
+     deliciousXML2H2();
+     startServer();
+  }
+
+  public static void startDB()  {
+    try {
+       Class.forName("org.h2.Driver");
+    } catch ( ClassNotFoundException cnfe ) { cnfe.printStackTrace(); }
+
+    try {
+      conn = DriverManager.getConnection("jdbc:h2:mem:delicious","sa","");
+      stmt = conn.createStatement();
+      stmt.executeUpdate("CREATE TABLE posts ( posts_id INTEGER, description VARCHAR(2048), extended VARCHAR(4096), hash VARCHAR(2048), href VARCHAR(2048), private BOOLEAN, shared BOOLEAN, tag VARCHAR(2048), time DATE )");
+    } catch ( SQLException sqle ) { sqle.printStackTrace(); }
+  }
+
+  public static void deliciousXML2H2() {
+     try {
+       Authenticator.setDefault(new Authenticator() {
+	  public PasswordAuthentication getPasswordAuthentication() {
+	    String username = "agentq314";
+            String password = "dk87nup4841";
+            return new PasswordAuthentication(username,password.toCharArray());  
+          }
+       });
+
+       URL url = new URL("https://agentq314:dk87nup4841@api.del.icio.us/v1/posts/all");
+       HttpsURLConnection conn = (HttpsURLConnection)(url.openConnection());
+       Document doc = (new SAXReader()).read( conn.getInputStream() );
+       List<Node> posts = (List<Node>)doc.selectNodes("//post");        
+
+       for ( Node post : posts ) {
+	  List<Node> attributes = (List<Node>)(post.selectNodes("@*"));
+          String description = ""; 
+          String href = "";
+          String extended = "";            
+          String hash = "";
+          String tag = "";
+          String shared = "";
+          String pvt = "";
+          String time = "";
+
+          for ( Node attribute : attributes ) {
+	     String attributeName = attribute.getName();           
+             if ( attributeName.equals("description") ) {
+		description = attribute.getText();
+                description = description.replaceAll("'","");
+             }
+             if ( attributeName.equals("href") ) { 
+	       href = attribute.getText();
+             }
+             if ( attributeName.equals("extended") ) {
+               extended = attribute.getText();
+               extended = extended.replaceAll("'","");
+             }
+             if ( attributeName.equals("hash") ) {
+	       hash = attribute.getText();
+             }
+             if ( attributeName.equals("tag") ) {
+	       tag = attribute.getText();
+               tag = tag.replaceAll("'","");
+             }
+             if ( attributeName.equals("shared") ) {
+	        if ( attribute.getText().equals("yes") ) {
+		    shared = "true";
+                }
+                if ( attribute.getText().equals("no") ) {
+                    shared = "false";
+                }
+             }
+             if ( attributeName.equals("private") ) {
+	        if ( attribute.getText().equals("yes") ) {
+		    pvt = "true";
+                }
+                if ( attribute.getText().equals("no") ) {
+                    pvt = "false";
+                }
+             }
+             if ( attributeName.equals("time") ) {
+		 time = attribute.getText();
+             }
+          }
+ 
+          try {
+	      stmt.executeUpdate("INSERT INTO posts ( description, extended, hash, href, private, shared, tag, time ) VALUES ( '"+description+"', '"+extended+"', '"+hash+"', '"+href+"', "+pvt+", "+shared+", '"+tag+"', '"+time.substring(0,10)+"')");
+          } catch ( SQLException sqle ) { sqle.printStackTrace(); }
+       }
+       
+       try {
+	  stmt.executeUpdate("CREATE SEQUENCE posts_seq INCREMENT BY 1"); 
+	  stmt.executeUpdate("UPDATE posts set posts_id=posts_seq.nextval");
+
+          stmt.executeUpdate("CREATE INDEX posts_tag_idx ON posts ( tag )");
+       } catch ( SQLException sqle ) { sqle.printStackTrace(); }
+     } catch ( IOException ioe ) { ioe.printStackTrace(); }
+     catch ( DocumentException doce ) { doce.printStackTrace(); }
+  }
+
+  public static void startServer() {
+    try {
+       Server server = Server.createTcpServer().start();
+    } catch ( SQLException sqle ) { sqle.printStackTrace(); }
+  }
+}
