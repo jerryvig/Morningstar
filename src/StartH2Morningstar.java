@@ -115,6 +115,7 @@ public class StartH2Morningstar {
 	  stmt.executeUpdate("UPDATE posts set posts_id=posts_seq.nextval");
 
           stmt.executeUpdate("CREATE INDEX posts_tag_idx ON posts ( tag )");
+          stmt.executeUpdate("CREATE INDEX posts_time_idx ON posts ( time )");
        } catch ( SQLException sqle ) { sqle.printStackTrace(); }
      } catch ( IOException ioe ) { ioe.printStackTrace(); }
      catch ( DocumentException doce ) { doce.printStackTrace(); }
