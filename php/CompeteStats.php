@@ -1,6 +1,6 @@
 <?php
-  $fh = fopen( './QuantCastTop1000.csv', 'r' );
-  $out = fopen( './CompeteData-2012-02-15.csv', 'w' );
+  $fh = fopen( './AlexaTop3000.csv', 'r' );
+  $out = fopen( './CompeteData'. date("Y-m-d") .'.csv', 'w' );
 
   while (($line = fgets($fh, 4096))!=false) {
     $domain = trim($line);
