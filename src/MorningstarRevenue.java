@@ -14,7 +14,7 @@ public class MorningstarRevenue {
    private static BufferedReader reader;
 
    public static void main( String[] args ) {
-       ArrayList<String> tickers = new ArrayList<String>();
+       ArrayList<String> tickers = new ArrayList();
        try {
 	   writer = new BufferedWriter( new FileWriter("./MorningstarRevenues.csv") );
            writer.write( "\"Ticker Symbol\",\"Period\",\"Revenue\"\n" );
