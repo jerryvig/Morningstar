@@ -22,7 +22,7 @@ public class YahooProfile {
        try {
 	   writer = new BufferedWriter( new FileWriter("./YahooProfiles.csv") );
            writer.write( "\"Ticker Symbol\",\"Company Name\",\"Phone Number\",\"Fax Number\",\"Address\",\"Website\",\"Index Membership\",\"Sector\",\"Industry\",\"Full Time Employees\"\n" );
-           reader = new BufferedReader( new FileReader("./NASDAQ-LISTS.csv") );
+           reader = new BufferedReader( new FileReader("./R3K-CBOE-List.csv") );
            String s;
            while ( (s = reader.readLine()) != null ) {
 	       tickers.add(s.trim());
