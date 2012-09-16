@@ -19,20 +19,19 @@ function processNextLine( lines, idx ) {
    exec( '/usr/bin/wget -O index.html '+url, function(err, stdout, stderr) {
        fileSystem.readFile('./index.html','utf8',function(err,data){
           if ( err ) throw err;
- 
            
-           var dataLines = data.split('\n');
-           var ajax_keys = '';
-           for ( var i=0; i<dataLines.length; i++ ) {
+          var dataLines = data.split('\n');
+          var ajax_keys = '';
+          for ( var i=0; i<dataLines.length; i++ ) {
              if ( dataLines[i].indexOf("ajax_keys") > 0 ) {
                 ajax_keys = dataLines[i];
 		break;
              }
-           }
+          }
 
-           var keys = ajax_keys.split('"');
-           var csvUrl = 'http://siteanalytics.compete.com/export_csv/'+cols[1]+'/'+keys[3];
-           exec('/usr/bin/wget -O index.csv '+csvUrl, function(err,stdout,stderr) {
+          var keys = ajax_keys.split('"');
+          var csvUrl = 'http://siteanalytics.compete.com/export_csv/'+cols[1]+'/'+keys[3];
+          exec('/usr/bin/wget -O index.csv '+csvUrl, function(err,stdout,stderr) {
                fileSystem.readFile('./index.csv','utf8',function(err,data){
                    if ( err ) throw err;
                    
@@ -52,7 +51,7 @@ function processNextLine( lines, idx ) {
                         setTimeout( function(){processNextLine(lines,idx);}, DELAY_TIME );
                    });
 	       });
-           });
+          });
        });   
    });
 }
