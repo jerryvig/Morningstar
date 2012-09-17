@@ -1,4 +1,7 @@
 <!DOCTYPE html><html><head><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<style type="text/css">
+  .row:hover { background-color: #ffef00;font-style:italic; }
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
    $.getJSON('./compete_sharpe_data',function(data){
@@ -58,11 +61,14 @@ $(document).ready(function(){
            $("#dataTable").append( myRow );
            idx++;
        });
+
+       $('tr').attr('class','row');
+     
    });
 });
 </script>
 </head>
 <body>
-<div id="mainDiv" align="center"><h1 style="font-family:Arial;font-weight:bold;"></h1>
+<div id="mainDiv" align="center"><h1 style="font-family:Arial;font-weight:bold;color:#007FFF;"></h1>
   <table id="dataTable" align="center" cellspacing="0" cellpadding="3" style="font-family:Arial;font-weight:bold;"></table>
 </div></body></html>
