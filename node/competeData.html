@@ -3,7 +3,7 @@
   .row:hover { background-color: #ffef00;font-style:italic; }
 </style>
 <script type="text/javascript">
-$(document).ready(function(){
+$(window).load(function(){
    $.getJSON('./compete_sharpe_data',function(data){
        var idx = 0;
        var firstRow = document.createElement('tr');
