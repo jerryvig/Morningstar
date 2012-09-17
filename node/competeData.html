@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+   $.getJSON('./compete_sharpe_data',function(data){
+       var idx = 0;
+       var firstRow = document.createElement('tr');
+       var domainTd = document.createElement('td');
+       $(domainTd).attr('align','center');
+       $(domainTd).append( 'Domain' );
+       $(firstRow).append( domainTd );
+       var sharpeTd = document.createElement('td');
+       $(sharpeTd).attr('align','center');
+       $(sharpeTd).append( 'Sharpe Ratio of Growth' );
+       $(firstRow).append( sharpeTd );
+       var maxTd = document.createElement('td');
+       $(maxTd).attr('align','center');
+       $(maxTd).append( 'Unique Visitors' );
+       $(firstRow).append( maxTd );
+       var cumTd = document.createElement('td');
+       $(cumTd).attr('align','center');
+       $(cumTd).append( 'Cumulative Growth' );
+       $(firstRow).append( cumTd );
+            
+       $(firstRow).css('background-color','#EEEEEE');
+       $("#dataTable").append( firstRow );
+       $("h1").append( 'Top 3000 Alexa Domains Sorted by Sharpe of Unique Visitor Growth' );
+
+       $.each(data.rows,function(index,row){
+           var myRow = document.createElement('tr');
+           var domainTd = document.createElement('td');
+           var domainA = document.createElement('a');
+           domainA.href = "http://" + row.domain;
+           domainA.target = "_blank";
+           $(domainA).append( row.domain );
+           $(domainTd).append( domainA );
+           $(myRow).append( domainTd );
+
+           var sharpeGrowthTd = document.createElement('td');
+           $(sharpeGrowthTd).append( row.sharpe_growth );
+           $(myRow).append( sharpeGrowthTd );
+
+           var maxUniqueVisitorsTd = document.createElement('td');
+           $(maxUniqueVisitorsTd).attr('align','right');
+           $(maxUniqueVisitorsTd).append( row.max_unique_visitors );
+           $(myRow).append( maxUniqueVisitorsTd );
+
+           var cumGrowthTd = document.createElement('td');
+           $(cumGrowthTd).attr('align','right');
+           $(cumGrowthTd).append( row.cum_growth );
+           $(myRow).append( cumGrowthTd );
+
+           if ( idx % 2 == 0 ) {
+             $(myRow).css('background-color','#C6DEFF');
+           } else {
+             $(myRow).css('background-color','#EEEEEE');
+           }
+           
+           $("#dataTable").append( myRow );
+           idx++;
+       });
+   });
+});
+</script>
+</head>
+<body>
+<div id="mainDiv" align="center"><h1 style="font-family:Arial;font-weight:bold;"></h1>
+  <table id="dataTable" align="center" cellspacing="0" cellpadding="3" style="font-family:Arial;font-weight:bold;"></table>
+</div></body></html>
