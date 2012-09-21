@@ -16,7 +16,7 @@ app.get('/compete_sharpe_data',function(req, res) {
    res.set('Content-Type', 'application/json');
    var jsonResp = new Object();
 
-   db.all('SELECT * FROM sharpe_growth ORDER BY sharpe_growth DESC',function(err,rows){
+   db.all('SELECT * FROM sharpe_growth ORDER BY sharpe_growth DESC LIMIT 500',function(err,rows){
        if ( err ) throw err;
        jsonResp.rows = rows;
        res.json( jsonResp );
