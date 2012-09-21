@@ -3,7 +3,7 @@ var exec = require('child_process').exec;
 var DELAY_TIME = 350;
 
 fileSystem.unlink('./CompeteData.csv',function(){
-  fileSystem.readFile('./AlexaTop3000.csv','utf8',function(err,data){
+  fileSystem.readFile('./AlexaTop5000.csv','utf8',function(err,data){
     if ( err ) throw err;
     var lines = data.split('\n');
     processNextLine( lines, 0 ); 
